@@ -1,0 +1,1 @@
+Data collection is not applicable to our project.

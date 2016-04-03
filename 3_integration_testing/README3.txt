@@ -1,0 +1,1 @@
+We planned to integrate the components after demo 1, therefore integration tests are not applicable at this time.
