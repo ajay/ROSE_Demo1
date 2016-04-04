@@ -1,40 +1,25 @@
-CC = gcc
-CFLAGS = -pedantic -Wall -Werror -std=gnu99 -O3 -o
-COMPILEC = $(CC) $(CFLAGS)
+CFLAGS = -I/usr/local/include \
+				 -std=c++11 -O2 -g
+LIBS = -L/usr/local/lib \
+			 -lopencv_core \
+			 -lopencv_highgui \
+			 -larmadillo \
+			 -lSDL2
 
-CPPC = g++
-CPPFLAGS = `pkg-config --cflags opencv` -pedantic -Wall -std=c++11 -O3 -Wno-maybe-uninitialized -o
-COMPILECPP = $(CPPC) $(CPPFLAGS)
-LIBS = -larmadillo -lSDL -pthread -lSDL2 `pkg-config --libs opencv`
-
-PFOBJS = sim_window.o sim_map.o sim_robot.o sim_lidar.o sim_landmark.o \
+OBJS = sim_window.o sim_map.o sim_robot.o sim_lidar.o sim_landmark.o \
 			 pfilter.o \
 			 highgui.o draw.o sim.o
 
-OBJECTS = Rose.o serial.o chilitags.o test.o planner $(PFOBJS)
+all: $(OBJS) sim
 
-all: $(OBJECTS) test
+raycast: raycast.cpp
+	g++ -std=c++11 raycast.cpp -o raycast -larmadillo -lSDL2
 
-serial.o: serial.c serial.h
-	$(COMPILEC) $@ -c $<
-
-Rose.o: Rose.cpp Rose.h
-	$(COMPILECPP) $@ -c $<
-
-chilitags.o: chili_landmarks.cpp chili_landmarks.h
-	$(COMPILECPP) $@ -c $<
+sim: $(OBJS)
+	g++ $(CFLAGS) -o $@ $^ $(LIBS)
 
 %.o: %.cpp
-	g++ $(CPPFLAGS) -o $@ -c $<
-
-test.o: test.cpp
-	$(COMPILECPP) $@ -c $<
-
-test: $(OBJECTS)
-	$(COMPILECPP) $@ $^ $(LIBS)
-
-planner.o: planner.cpp
-	$(COMPILECPP) $@ -c $<
+	g++ $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rfv *.o test
+	rm -f raycast sim *.o
