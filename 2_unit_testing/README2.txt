@@ -71,3 +71,7 @@ The particle filter, although not completely integrated yet, can be run by runni
 
 make
 ./sim
+
+The arm test application can be run by going into the robot/arm directory and running the makefile, and then running the executable:
+make
+./arm
