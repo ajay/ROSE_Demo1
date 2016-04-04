@@ -29,3 +29,7 @@ After all dependencies are satisfied, the robot application can be run by runnin
 
 make
 ./rose
+
+The arm test application can be run by going into the robot/arm directory and running the makefile, and then running the executable:
+make
+./arm
